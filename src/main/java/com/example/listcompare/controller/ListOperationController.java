@@ -20,19 +20,21 @@ import java.util.List;
 @Slf4j
 @RestController
 @Api("List Operations")
-@RequestMapping(value=EmployeeApi.BASE_PATH)
+@RequestMapping(value = EmployeeApi.BASE_PATH)
 public class ListOperationController {
 
     @Autowired
     ListOperation listOperation;
 
-    StatusDTO statusDTO=new StatusDTO();
+    StatusDTO statusDTO = new StatusDTO();
 
 
     @ApiOperation("Add Data")
     @PostMapping(value = EmployeeApi.ADD_EMPLOYEE)
     public StatusDTO addData(@RequestBody EmployeeDTO employeeDTO) throws InterruptedException {
-        statusDTO=listOperation.addEmployee(employeeDTO);
+
+
+        statusDTO = listOperation.addEmployee(employeeDTO);
         System.out.println("Data added");
         return statusDTO;
     }
@@ -40,10 +42,11 @@ public class ListOperationController {
     @ApiOperation("Update Data")
     @PostMapping(value = EmployeeApi.UPDATE_EMPLOYEE)
     public StatusDTO updateData(@RequestBody EmployeeDTO employeeDTO) throws InterruptedException {
-        statusDTO=listOperation.updateEmployee(employeeDTO);
+
+        System.out.println("Thread name: " + Thread.currentThread().getName());
+        statusDTO = listOperation.updateEmployee(employeeDTO);
         System.out.println("Data updated");
-
-
+        System.out.println(statusDTO.getMsg());
 
         return statusDTO;
     }
@@ -51,27 +54,27 @@ public class ListOperationController {
 
     @ApiOperation("Sort By Name")
     @GetMapping(value = EmployeeApi.SORT_BY_NAME)
-    public List<EmployeeDTO> sortByName(){
+    public List<EmployeeDTO> sortByName() {
         System.out.println("Sorted By name");
-        return  listOperation.sortByName();
+        return listOperation.sortByName();
     }
 
     @ApiOperation("Sort By Salary")
     @GetMapping(value = EmployeeApi.SORT_BY_SALARY)
-    public List<EmployeeDTO> sortBySalary(){
-        return  listOperation.sortBySalary();
+    public List<EmployeeDTO> sortBySalary() {
+        return listOperation.sortBySalary();
     }
 
     @ApiOperation("Sort By Id")
     @GetMapping(value = EmployeeApi.SORT_BY_ID)
-    public List<EmployeeDTO> sortById(){
-        return  listOperation.sortById();
+    public List<EmployeeDTO> sortById() {
+        return listOperation.sortById();
     }
 
     @ApiOperation("Sort By Department")
     @GetMapping(value = EmployeeApi.SORT_BY_DEPARTMENT)
-    public List<EmployeeDTO> sortByDepartment(){
-        return  listOperation.sortByDepartment();
+    public List<EmployeeDTO> sortByDepartment() {
+        return listOperation.sortByDepartment();
     }
 
 }
