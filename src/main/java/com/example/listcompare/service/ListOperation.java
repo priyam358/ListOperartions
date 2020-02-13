@@ -6,6 +6,7 @@ import com.example.listcompare.dto.enums.LockEnum;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface ListOperation {
 
@@ -25,6 +26,8 @@ public interface ListOperation {
     public List<EmployeeDTO>  sortByDepartment();
 
     public void acquireAndReleaseLock(EmployeeDTO employeeDTO, LockEnum lockEnum) ;
+
+    CompletableFuture<List<EmployeeDTO>> fetchAll() throws InterruptedException;
 
 
     public boolean acquireLock(EmployeeDTO employeeDTO);

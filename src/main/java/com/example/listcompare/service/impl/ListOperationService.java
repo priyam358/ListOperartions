@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -135,6 +138,17 @@ public class ListOperationService implements ListOperation {
             }
         }
     }
+
+    @Override
+    @Async
+    public CompletableFuture<List<EmployeeDTO>> fetchAll() throws InterruptedException {
+        System.out.println("Before : "+Thread.currentThread().getName());
+        List<EmployeeDTO> ls=listRepo.findAll();
+        TimeUnit.SECONDS.sleep(5);
+        System.out.println("After : "+Thread.currentThread().getName());
+        return CompletableFuture.completedFuture(ls);
+    }
+
 
     @Override
     public boolean acquireLock(EmployeeDTO employeeDTO) {
